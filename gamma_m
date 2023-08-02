@@ -1,0 +1,22 @@
+#include <iostream>
+#include <vector>
+#include <cmath>
+#include <complex>
+#include "mur.hpp"
+
+using namespace std; 
+
+complex <double> gamma_m(int i, complex <double> gamma_perp, complex <double> gamma, vector <double> d, double l, double epsr, double beta, vector <murs> array) {
+
+vector <int> vec_normal = array[i].get_vecnormal() ;
+//cout << "le gamma perp utilise est" << gamma_perp << endl ;
+double res = abs((d[0]*vec_normal[0] + d[1]*vec_normal[1])/(sqrt(d[0]*d[0]+d[1]*d[1]))) ;
+//cout << "res est" << res << endl;
+double s = l/sqrt(1-((1/epsr)*(1-res*res)));
+complex <double> exposant(0, 2*beta*s*sqrt(1.0/epsr)*(1.0-(res*res))) ;
+complex <double> tm2 = (1.0 - (gamma_perp*gamma_perp))*(gamma_perp*exp(-2.0*gamma*s)*exp(exposant));
+complex <double> tm3 = 1.0 - ((gamma_perp*gamma_perp)*exp(-2.0*gamma*s)*exp(exposant));;
+complex <double> r_m = gamma_perp - (tm2/tm3);
+//cout << "GAMMA M est" << r_m << endl ; 
+return r_m ; 
+}
