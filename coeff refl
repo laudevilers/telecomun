@@ -1,0 +1,26 @@
+#include <complex>
+#include <cmath>
+#include <iostream>
+#include <vector>
+#include "mur.hpp"
+#include "norme.hpp"
+
+using namespace std;
+
+complex <double> reflexion(int i, vector <double> d, complex <double> z_m, double epsr,vector <murs> array)
+{
+
+vector <int> vec_normal = array[i].get_vecnormal();
+const double pi = 3.14159265358979323846 ;
+double mu_0 = 4.0e-7*pi ;
+double eps_0 = 8.85418782e-12 ;
+double z_0 = sqrt(mu_0/eps_0);
+double res = abs((d[0]*vec_normal[0] + d[1]*vec_normal[1])/norm(d));
+//cout << " le cos de l'angle d'incidence est " << res << endl ;  //OK
+complex <double> refl2 = z_m*res - z_0 * sqrt(1 - (1/(epsr))*(1-(res*res)));
+complex <double> refl3 = z_m*res + z_0 * sqrt(1 - (1/(epsr))*(1-(res*res)));
+
+complex <double> GAMMA_PERP = refl2/refl3;
+cout << "GAMMA PERP est" << GAMMA_PERP << endl; //OK
+return GAMMA_PERP;
+}
