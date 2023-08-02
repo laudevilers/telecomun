@@ -1,0 +1,30 @@
+#include <vector>
+#include <iostream>
+#include "mur.hpp"
+#include "norme.hpp"
+
+using namespace std;
+ 
+vector <double> intersection(int i, vector <double> d, vector <double> origine_d, vector <murs> array) {
+	
+  int longueur = array[i].get_longueur() ;
+  vector <int> origine = array[i].get_origine() ;
+  vector <int> vec_directeur = array[i].get_vecdirecteur();
+  vector <double> v = {0,0};
+  double t, num, den;
+  den = d[1]*(origine_d[0]-origine[0]) - d[0]*(origine_d[1]-origine[1]) ;
+  num = vec_directeur[0]*d[1] - vec_directeur[1]*d[0] ;
+  t = den/num ; 
+  double norme_d = norm(d);
+  vector <double> inter = {d[0] + origine_d[0]-(origine[0] + t * vec_directeur[0]) ,d[1] + origine_d[1] -(origine[1] + t * vec_directeur[1])};
+  double norme_intersection = norm(inter); 
+  //cout << "la norme de d : " << norme_d << "est elle > " << norme_intersection << "?" << endl;
+  if (t < longueur && t > 0 && norme_intersection <= norme_d ) {
+	   v[0] = origine[0] + t * vec_directeur[0] ;
+	   v[1] = origine[1] + t * vec_directeur[1] ;
+	   //cout << "le point d'intersection est " << v[0]<< " " << v[1] <<" avec le mur numero "<< i << endl ;
+	   }
+  else {//cout << "pas d'intersection" << endl 
+	  ; }
+  return v ; 
+} 
